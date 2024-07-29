@@ -44,11 +44,82 @@ p {
     margin-bottom: 1%;
 }
 
+.plate_selector {
+    text-align: center;
+    max-height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.plate_selector_text {
+    display: inline;
+}
+
+.plate_selector_button {
+    display: inline;
+    vertical-align: top;
+    margin: 4px;
+    color: #f9f9f9;
+    background-color: #df7d46;
+    border-color: #d37742;
+    border-radius: 4px;
+}
+
 .add_set {
     background-color: #3f3f3f;
     border-radius: 4px;
     width: 20;
     height: 20;
+}
+
+.weight_display_module {
+    background-color: #2f2f2f;
+    border-radius: 8px;
+    margin: 10px;
+    max-width: 95%;
+    min-width: 95%;
+    max-height: 196px;
+    min-height: 196px;
+    vertical-align: middle;
+}
+
+.weight_display_text {
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 48px;
+    margin-top: 67px;
+    margin-left: 20px;
+}
+
+.plate_display {
+    display: inline-block;
+    min-width: 320px;
+    max-width: 320px;
+    min-height: 120px;
+    max-height: 120px;
+    text-align: center;
+    margin-left: 20%;
+    vertical-align: middle;
+}
+
+.plate_display_module {
+    display: inline-block;
+    min-width: 90px;
+    max-width: 90px;
+    min-height: 40px;
+    max-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #3f3f3f;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.plate_display_text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
 }
 
 #set_display {
@@ -58,4 +129,24 @@ p {
 #menu_button {
     background-color: #5e5e5e;
     border-radius: 4px;
+<<<<<<< Updated upstream
 }
+=======
+}
+
+#top_button {
+    height: 30px;
+    width: 30px;
+    background-color: #d1d1d1;
+    border-radius: 4px;
+}
+
+#total_button {
+    width: 80px;
+    height: 40px;
+}
+
+#total_button_container {
+    max-height: 50px;
+}
+>>>>>>> Stashed changes

@@ -5,10 +5,137 @@
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
         <script>
+            var page = 0; // 0=select weights, 1=list
+            // available plates
+            var plates = [ // 2.5, 5, 10, 15, 25, 35, 45
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+            ];
+
+            var elements = 0; // # of constructed elements
             
+            // hide/show plate selector
+            function switch_page() {
+                page = (page + 1) % 2;
+                document.getElementById("selection_panel").hidden = page == 1 ? true : false;
+            };
+
+            // change available plates
+            function add_remove_plate(weight, n, para_ref, w2) {
+                // min of 0, max of 8
+                plates[weight] = Math.min(8, Math.max(0, plates[weight] + n));
+                document.getElementById(para_ref).innerHTML = w2 + plates[weight];
+            };
+
+
+            // show available weights
+            function make_combos() {
+                // reset
+                for (i = 0; i < elements; i++) {
+                    const obsolete = document.getElementById("d" + i);
+                    obsolete.remove();
+                }
+                elements = 0;
+                
+                // start at 50, loop through all multiples of 5 to get to 500, figure out if you can make each weight
+                for (let i = 5; i < 455; i += 5) {
+
+                    // can you make this weight?
+                    var calc_weight = i/2;
+                    // disposable plates array
+                    available_plates = [[45, plates[6]/2], [35, plates[5]/2], [25, plates[4]/2], [15, plates[3]/2], [10, plates[2]/2], [5, plates[1]/2], [2.5, plates[0]/2]];
+
+                    pts = [];
+
+                    // number of total available plates
+                    avln = 0;
+                    for (q = 0; q < available_plates.length; q++) {
+                        avln += available_plates[q][1];
+                    }
+
+                    // loop through all available plates
+                    for (j = 0; j < avln; j++) {
+                        // find the biggest available plate that fits into the remaining required weight
+                        for (q = 0; q < available_plates.length; q++) {
+                            if (available_plates[q][0] <= calc_weight && available_plates[q][1] > 0) {
+
+                                calc_weight -= available_plates[q][0]; // adjust remaining required weight
+
+                                // add used plate to the used plates list - add a multiplier if we've used this plate size before
+                                if (pts.length > 0) {
+                                    if (pts[pts.length - 1][0] == available_plates[q][0]) {
+                                        pts[pts.length - 1][1] += 1;
+                                    } else {
+                                        pts.push([available_plates[q][0], 1]);
+                                    };
+                                } else {
+                                    pts.push([available_plates[q][0], 1]);
+                                };
+
+                                available_plates[q][1] -= 1; // use up a plate
+                                avln -= 1;
+
+                                break;
+                            }
+                        }
+                        if (calc_weight < 0.1) {
+
+                            // display weights
+                            const d1 = document.createElement("div"); // create new div
+                            d1.setAttribute("id", "d" + elements); // set id of div
+                            d1.setAttribute("class", "weight_display_module"); // set class
+                            elements++;
+
+                            // create weight display text
+                            const p1 = document.createElement("p");
+                            const node1 = document.createTextNode(i + 45);
+                            p1.appendChild(node1);
+                            p1.setAttribute("class", "weight_display_text");
+                            d1.appendChild(p1); // append to main div
+
+                            // create plate display
+                            const d2 = document.createElement("div"); // create new div
+                            d2.setAttribute("class", "plate_display");
+
+                            // create plate display modules
+                            for (q = 0; q < pts.length; q++) {
+                                // module divs
+                                const d3 = document.createElement("div");
+                                d3.setAttribute("class", "plate_display_module")
+
+                                // module text
+                                const p2 = document.createElement("p");
+                                p2.setAttribute("class", "plate_display_text")
+                                const node2 = document.createTextNode(pts[q][0] + " x" + pts[q][1]);
+                                p2.appendChild(node2);
+
+                                d3.appendChild(p2); // append module text to div
+                                d2.appendChild(d3); // append plate module to plate display
+                            };
+
+                            d1.appendChild(d2); // append plate display to main div
+
+                            document.getElementById("weight_list").appendChild(d1); // append new div to parent
+                            
+                            break;
+                        } 
+                    }
+
+                }
+
+            };
+
+
+
         </script>
     </head>
     <body>
+<<<<<<< Updated upstream
         <div id="top_button">
             <rect id="top_button_pole" margin="10" height="10" color="#d1d1d1" border-radius="4"></rect>
             <rect id="top_button_flag" width="40" height="40" color="#d1d1d1" border-radius="4">
@@ -17,7 +144,107 @@
                     <line x1="20" y1="25" x2="35" y2="15" stroke-width="2px" color="#d1d1d1"></line>
                 </svg>
             </rect>
+=======
+        <div id="menu_slice">
+            <button id="menu_button" onclick="switch_page()">
+                <svg width="24" height="24">
+                    <line x1="0" y1="6" x2="24" y2="6" class="panel_svg" />
+                    <line x1="0" y1="14" x2="24" y2="14" class="panel_svg" />
+                    <line x1="0" y1="22" x2="24" y2="22" class="panel_svg" />
+                </svg>
+            </button>
+>>>>>>> Stashed changes
         </div>
+
+        <div class="panel" id="selection_panel">
+            <div class="plate_selector" id="selector_2_5">
+                <button class="plate_selector_button" id="plate_selector_button_2_5_minus" onclick="add_remove_plate(0, -2, 'selector_2_5_text', '2.5: ')">-</button>
+                <p class="plate_selector_text" id="selector_2_5_text">2.5: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_2_5_plus" onclick="add_remove_plate(0, 2, 'selector_2_5_text', '2.5: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_5">
+                <button class="plate_selector_button" id="plate_selector_button_5_minus" onclick="add_remove_plate(1, -2, 'selector_5_text', '5: ')">-</button>
+                <p class="plate_selector_text" id="selector_5_text">5: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_5_plus" onclick="add_remove_plate(1, 2, 'selector_5_text', '5: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_10">
+                <button class="plate_selector_button" id="plate_selector_button_10_minus" onclick="add_remove_plate(2, -2, 'selector_10_text', '10: ')">-</button>
+                <p class="plate_selector_text" id="selector_10_text">10: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_10_plus" onclick="add_remove_plate(2, 2, 'selector_10_text', '10: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_15">
+                <button class="plate_selector_button" id="plate_selector_button_15_minus" onclick="add_remove_plate(3, -2, 'selector_15_text', '15: ')">-</button>
+                <p class="plate_selector_text" id="selector_15_text">15: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_15_plus" onclick="add_remove_plate(3, 2, 'selector_15_text', '15: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_25">
+                <button class="plate_selector_button" id="plate_selector_button_25_minus" onclick="add_remove_plate(4, -2, 'selector_25_text', '25: ')">-</button>
+                <p class="plate_selector_text" id="selector_25_text">25: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_25_plus" onclick="add_remove_plate(4, 2, 'selector_25_text', '25: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_35">
+                <button class="plate_selector_button" id="plate_selector_button_35_minus" onclick="add_remove_plate(5, -2, 'selector_35_text', '35: ')">-</button>
+                <p class="plate_selector_text" id="selector_35_text">35: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_35_plus" onclick="add_remove_plate(5, 2, 'selector_35_text', '35: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_45">
+                <button class="plate_selector_button" id="plate_selector_button_45_minus" onclick="add_remove_plate(6, -2, 'selector_45_text', '45: ')">-</button>
+                <p class="plate_selector_text" id="selector_45_text">45: 2</p>
+                <button class="plate_selector_button" id="plate_selector_button_45_plus" onclick="add_remove_plate(6, 2, 'selector_45_text', '45: ')">+</button>
+            </div>
+
+            <div class="plate_selector" id="total_button_container">
+                <button class="plate_selector_button" id="total_button" onclick="make_combos()">=</button>
+            </div>
+        </div>
+
+        <div id="weight_list">
+
+            <!--<div class="weight_display_module">
+
+                <p class="weight_display_text">215</p>
+
+                <div class="plate_display">
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">2.5 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">5 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">10 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">15 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">25 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">35 x1</p>
+                    </div>
+
+                    <div class="plate_display_module">
+                        <p class="plate_display_text">45 x1</p>
+                    </div>
+
+                </div>
+            </div>-->
+            
+        </div>
+
     </body>
 
 </html>
