@@ -17,7 +17,7 @@
                 2
             ];
 
-            var elements = 0; // # of constructed elements
+            var elements = 0; // # of constructed elements (for IDing and removal later)
             
             // hide/show plate selector
             function switch_page() {
@@ -45,47 +45,92 @@
                 // start at 50, loop through all multiples of 5 to get to 500, figure out if you can make each weight
                 for (let i = 5; i < 455; i += 5) {
 
-                    // can you make this weight?
-                    var calc_weight = i/2;
-                    // disposable plates array
-                    available_plates = [[45, plates[6]/2], [35, plates[5]/2], [25, plates[4]/2], [15, plates[3]/2], [10, plates[2]/2], [5, plates[1]/2], [2.5, plates[0]/2]];
+                    //console.log("new weight: " + (i + 45));
 
-                    pts = [];
+                    // weight to match
+                    var calc_weight = i/2;
+
+                    // disposable plates array
+                    var available_plates = [];
+                    for (j = 0; j < plates.length; j++) {
+                        var to_add = [2.5, 5, 10, 15, 25, 35, 45][j];
+                        for (q = 0; q < plates[j]/2; q++) {
+                            available_plates.push(to_add);
+                        };
+                    };
 
                     // number of total available plates
-                    avln = 0;
-                    for (q = 0; q < available_plates.length; q++) {
-                        avln += available_plates[q][1];
-                    }
+                    var avln = 0;
+                    for (q = 0; q < plates.length; q++) {
+                        avln += plates[q]/2;
+                    };
 
-                    // loop through all available plates
-                    for (j = 0; j < avln; j++) {
-                        // find the biggest available plate that fits into the remaining required weight
-                        for (q = 0; q < available_plates.length; q++) {
-                            if (available_plates[q][0] <= calc_weight && available_plates[q][1] > 0) {
+                    // DFS setup
+                    var explored_nodes = [""]; // specific nodes
+                    var explored_weights = [["", available_plates, calc_weight, false]]; // node array [id, remaining plates, remaining weight, dead end, multiples of plates]
+                    var current_index = 0; // keep track of where we are
 
-                                calc_weight -= available_plates[q][0]; // adjust remaining required weight
+                    // DFS to find a plate combination
+                    for (j = 0; j < avln**2; j++) {
 
-                                // add used plate to the used plates list - add a multiplier if we've used this plate size before
-                                if (pts.length > 0) {
-                                    if (pts[pts.length - 1][0] == available_plates[q][0]) {
-                                        pts[pts.length - 1][1] += 1;
-                                    } else {
-                                        pts.push([available_plates[q][0], 1]);
-                                    };
-                                } else {
-                                    pts.push([available_plates[q][0], 1]);
-                                };
+                        var node_ref = explored_weights[current_index];
+                        var terminate = false;
 
-                                available_plates[q][1] -= 1; // use up a plate
-                                avln -= 1;
+                        // find the biggest available plate less than remaining weight, that hasn't been tried before
+                        for (q = 0; q < node_ref[1].length; q++) {
+
+                            //console.log("prospective weight " + node_ref[0] + "," + node_ref[1][node_ref[1].length - q - 1]);
+                            
+                            if (node_ref[1][node_ref[1].length - q - 1] <= node_ref[2] && explored_nodes.includes(explored_nodes[current_index] + "," + node_ref[1][node_ref[1].length - q - 1]) == false) { // !! needs [0]'d somehow
+                                
+                                //console.log("successful addition");  
+                            
+                                // weight of plate we are be adding
+                                var next_plate = node_ref[1][node_ref[1].length - q - 1];
+                                // record visited node
+                                explored_weights.push([node_ref[0] + "," + next_plate, node_ref[1].toSpliced(node_ref[1].length - q - 1, 1), node_ref[2] - next_plate, false]);
+                                explored_nodes.push(explored_nodes[current_index] + "," + next_plate);
+                                // go deeper
+                                current_index = explored_weights.length - 1;
+                                node_ref = explored_weights[current_index];
 
                                 break;
-                            }
-                        }
-                        if (calc_weight < 0.1) {
+                            };
 
-                            // display weights
+                            // found no plate; mark node as dead end
+                            if (q == node_ref[1].length - 1) {
+
+                                //console.log("dead end: " + current_index + ", " + explored_weights[current_index][0]);
+                                //console.log("explored nodes: " + explored_weights.length);
+
+                                explored_weights[current_index][3] = true;
+                                // go to deepest non-dead end node
+                                for (w = 1; w <= explored_weights.length; w++) {
+                                    //console.log("node id: " + explored_weights[explored_weights.length - w][0])
+                                    if (explored_weights[explored_weights.length - w][3] == false) {
+                                        current_index = explored_weights.length - w;
+
+                                        //console.log("jump: " + current_index + "  " + explored_weights[current_index][0]);
+                                        break;
+                                    };
+                                    // no non-dead end nodes? terminate
+                                    if (w == explored_weights.length) {
+                                        terminate = true;
+                                    };
+                                };
+                            };
+                        };
+
+                        // terminate if no non-dead ends
+                        if (terminate == true) {
+                            break;
+                        };
+
+                        // is this weight the right one?
+                        if (node_ref[2] == 0) {
+
+                            // create the html elements for weight displays
+                            // main div
                             const d1 = document.createElement("div"); // create new div
                             d1.setAttribute("id", "d" + elements); // set id of div
                             d1.setAttribute("class", "weight_display_module"); // set class
@@ -93,7 +138,7 @@
 
                             // create weight display text
                             const p1 = document.createElement("p");
-                            const node1 = document.createTextNode(i + 45);
+                            const node1 = document.createTextNode(i + 45); // create text to attach to paragraph
                             p1.appendChild(node1);
                             p1.setAttribute("class", "weight_display_text");
                             d1.appendChild(p1); // append to main div
@@ -101,6 +146,27 @@
                             // create plate display
                             const d2 = document.createElement("div"); // create new div
                             d2.setAttribute("class", "plate_display");
+
+                            // make ID into something usable
+                            var pts1 = node_ref[0].split(",")
+                            pts1.shift(); // get rid of empty string
+
+                            var pts = [];
+
+                            // count multiples
+                            for (q = 0; q < pts1.length; q++) {
+                                if (pts.length > 0) {
+                                    if (pts[pts.length - 1][0] == pts1[q]) {
+                                        pts[pts.length - 1][1] += 1;
+                                    } else {
+                                        pts.push([pts1[q], 1]);
+                                    };
+                                } else {
+                                    pts.push([pts1[q], 1]);
+                                };
+                            };
+
+                            //console.log(pts);
 
                             // create plate display modules
                             for (q = 0; q < pts.length; q++) {
@@ -111,7 +177,7 @@
                                 // module text
                                 const p2 = document.createElement("p");
                                 p2.setAttribute("class", "plate_display_text")
-                                const node2 = document.createTextNode(pts[q][0] + " x" + pts[q][1]);
+                                const node2 = document.createTextNode(pts[q][0] + " x" + pts[q][1]); // !!
                                 p2.appendChild(node2);
 
                                 d3.appendChild(p2); // append module text to div
@@ -121,12 +187,13 @@
                             d1.appendChild(d2); // append plate display to main div
 
                             document.getElementById("weight_list").appendChild(d1); // append new div to parent
-                            
-                            break;
-                        } 
-                    }
 
-                }
+                            break;
+                        };
+
+                    };
+
+                };
 
             };
 
@@ -195,7 +262,8 @@
 
         <div id="weight_list">
 
-            <!--<div class="weight_display_module">
+            <!-- example weight display (this is what the code builds)
+            <div class="weight_display_module">
 
                 <p class="weight_display_text">215</p>
 
@@ -205,32 +273,9 @@
                         <p class="plate_display_text">2.5 x1</p>
                     </div>
 
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">5 x1</p>
-                    </div>
-
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">10 x1</p>
-                    </div>
-
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">15 x1</p>
-                    </div>
-
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">25 x1</p>
-                    </div>
-
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">35 x1</p>
-                    </div>
-
-                    <div class="plate_display_module">
-                        <p class="plate_display_text">45 x1</p>
-                    </div>
-
                 </div>
-            </div>-->
+            </div>
+            -->
             
         </div>
 
