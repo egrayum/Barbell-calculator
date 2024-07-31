@@ -14,7 +14,8 @@
                 2,
                 2,
                 2,
-                2
+                2,
+                0
             ];
 
             var elements = 0; // # of constructed elements (for IDing and removal later)
@@ -30,11 +31,23 @@
                 // min of 0, max of 8
                 plates[weight] = Math.min(8, Math.max(0, plates[weight] + n));
                 document.getElementById(para_ref).innerHTML = w2 + plates[weight];
+                // change text color
+                if (plates[weight] == 0) {
+                    document.getElementById(para_ref).style.color = "#c1c1c1";
+                } else {
+                    document.getElementById(para_ref).style.color = "#f9f9f9";
+                };
+                // unhide calc button
+                document.getElementById("total_button_container").hidden = false;
             };
 
 
             // show available weights
             function make_combos() {
+
+                // hide calc button
+                document.getElementById("total_button_container").hidden = true;
+
                 // reset
                 for (i = 0; i < elements; i++) {
                     const obsolete = document.getElementById("d" + i);
@@ -53,7 +66,7 @@
                     // disposable plates array
                     var available_plates = [];
                     for (j = 0; j < plates.length; j++) {
-                        var to_add = [2.5, 5, 10, 15, 25, 35, 45][j];
+                        var to_add = [2.5, 5, 10, 15, 25, 35, 45, 55][j];
                         for (q = 0; q < plates[j]/2; q++) {
                             available_plates.push(to_add);
                         };
@@ -198,7 +211,6 @@
             };
 
 
-
         </script>
     </head>
     <body>
@@ -214,49 +226,55 @@
 
         <div class="panel" id="selection_panel">
             <div class="plate_selector" id="selector_2_5">
-                <button class="plate_selector_button" id="plate_selector_button_2_5_minus" onclick="add_remove_plate(0, -2, 'selector_2_5_text', '2.5: ')">-</button>
-                <p class="plate_selector_text" id="selector_2_5_text">2.5: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_2_5_plus" onclick="add_remove_plate(0, 2, 'selector_2_5_text', '2.5: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_2_5_minus" onclick="add_remove_plate(0, -2, 'selector_2_5_text', '2.5 x')">-</button>
+                <p class="plate_selector_text" id="selector_2_5_text">2.5 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_2_5_plus" onclick="add_remove_plate(0, 2, 'selector_2_5_text', '2.5 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_5">
-                <button class="plate_selector_button" id="plate_selector_button_5_minus" onclick="add_remove_plate(1, -2, 'selector_5_text', '5: ')">-</button>
-                <p class="plate_selector_text" id="selector_5_text">5: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_5_plus" onclick="add_remove_plate(1, 2, 'selector_5_text', '5: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_5_minus" onclick="add_remove_plate(1, -2, 'selector_5_text', '5 x')">-</button>
+                <p class="plate_selector_text" id="selector_5_text">5 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_5_plus" onclick="add_remove_plate(1, 2, 'selector_5_text', '5 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_10">
-                <button class="plate_selector_button" id="plate_selector_button_10_minus" onclick="add_remove_plate(2, -2, 'selector_10_text', '10: ')">-</button>
-                <p class="plate_selector_text" id="selector_10_text">10: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_10_plus" onclick="add_remove_plate(2, 2, 'selector_10_text', '10: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_10_minus" onclick="add_remove_plate(2, -2, 'selector_10_text', '10 x')">-</button>
+                <p class="plate_selector_text" id="selector_10_text">10 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_10_plus" onclick="add_remove_plate(2, 2, 'selector_10_text', '10 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_15">
-                <button class="plate_selector_button" id="plate_selector_button_15_minus" onclick="add_remove_plate(3, -2, 'selector_15_text', '15: ')">-</button>
-                <p class="plate_selector_text" id="selector_15_text">15: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_15_plus" onclick="add_remove_plate(3, 2, 'selector_15_text', '15: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_15_minus" onclick="add_remove_plate(3, -2, 'selector_15_text', '15 x')">-</button>
+                <p class="plate_selector_text" id="selector_15_text">15 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_15_plus" onclick="add_remove_plate(3, 2, 'selector_15_text', '15 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_25">
-                <button class="plate_selector_button" id="plate_selector_button_25_minus" onclick="add_remove_plate(4, -2, 'selector_25_text', '25: ')">-</button>
-                <p class="plate_selector_text" id="selector_25_text">25: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_25_plus" onclick="add_remove_plate(4, 2, 'selector_25_text', '25: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_25_minus" onclick="add_remove_plate(4, -2, 'selector_25_text', '25 x')">-</button>
+                <p class="plate_selector_text" id="selector_25_text">25 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_25_plus" onclick="add_remove_plate(4, 2, 'selector_25_text', '25 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_35">
-                <button class="plate_selector_button" id="plate_selector_button_35_minus" onclick="add_remove_plate(5, -2, 'selector_35_text', '35: ')">-</button>
-                <p class="plate_selector_text" id="selector_35_text">35: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_35_plus" onclick="add_remove_plate(5, 2, 'selector_35_text', '35: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_35_minus" onclick="add_remove_plate(5, -2, 'selector_35_text', '35 x')">-</button>
+                <p class="plate_selector_text" id="selector_35_text">35 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_35_plus" onclick="add_remove_plate(5, 2, 'selector_35_text', '35 x')">+</button>
             </div>
 
             <div class="plate_selector" id="selector_45">
-                <button class="plate_selector_button" id="plate_selector_button_45_minus" onclick="add_remove_plate(6, -2, 'selector_45_text', '45: ')">-</button>
-                <p class="plate_selector_text" id="selector_45_text">45: 2</p>
-                <button class="plate_selector_button" id="plate_selector_button_45_plus" onclick="add_remove_plate(6, 2, 'selector_45_text', '45: ')">+</button>
+                <button class="plate_selector_button" id="plate_selector_button_45_minus" onclick="add_remove_plate(6, -2, 'selector_45_text', '45 x')">-</button>
+                <p class="plate_selector_text" id="selector_45_text">45 x2</p>
+                <button class="plate_selector_button" id="plate_selector_button_45_plus" onclick="add_remove_plate(6, 2, 'selector_45_text', '45 x')">+</button>
+            </div>
+
+            <div class="plate_selector" id="selector_45">
+                <button class="plate_selector_button" id="plate_selector_button_55_minus" onclick="add_remove_plate(7, -2, 'selector_55_text', '55 x')">-</button>
+                <p class="plate_selector_text" id="selector_55_text">55 x0</p>
+                <button class="plate_selector_button" id="plate_selector_button_55_plus" onclick="add_remove_plate(7, 2, 'selector_55_text', '55 x')">+</button>
             </div>
 
             <div class="plate_selector" id="total_button_container">
-                <button class="plate_selector_button" id="total_button" onclick="make_combos()">=</button>
+                <button class="plate_selector_button" id="total_button" onclick="make_combos()">Calculate</button>
             </div>
         </div>
 
