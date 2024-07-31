@@ -67,6 +67,7 @@ p {
 .plate_selector_button {
     display: inline;
     vertical-align: top;
+    text-align: center;
     margin: 4px;
     color: #f9f9f9;
     background-color: #df7d46;
