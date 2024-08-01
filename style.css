@@ -21,11 +21,6 @@ p {
     min-width: 688px;
 }
 
-.panel_svg {
-    stroke-width: 2px;
-    stroke: #f9f9f9;
-}
-
 .basic_title {
     text-align: center;
     font-size: 32px;
@@ -60,7 +55,7 @@ p {
     margin-right: 10px;
     margin-top: 2px;
     margin-bottom: 0;
-    width: 148px;
+    width: 156px;
     vertical-align: middle;
 }
 
@@ -70,14 +65,13 @@ p {
     vertical-align: top;
     text-align: center;
     margin: 4px;
-    padding-left: 20px;
-    padding-right: 20px;
     color: #f9f9f9;
     background-color: #df7d46;
     border-color: #d37742;
     border-radius: 4px;
     font-size: 40px;
-    min-width: 50px;
+    min-width: 60px;
+    max-width: 60px;
     height: 60px;
 }
 
@@ -143,22 +137,18 @@ p {
 }
 
 #menu_button {
-    background-color: #5e5e5e;
+    background-color: #717171;
+    color: #d1d1d1;
+    font-size: 32px;
     border-radius: 4px;
-    width: 60px;
+    border: 0;
+    width: 100%;
     height: 60px;
-}
-
-#top_button {
-    height: 30px;
-    width: 30px;
-    background-color: #d1d1d1;
-    border-radius: 4px;
 }
 
 #total_button {
     height: 60px;
-    width: 196px;
+    min-width: 196px;
 }
 
 #total_button_container {
@@ -170,5 +160,35 @@ p {
 }
 
 #selector_55_text {
+    color: #c1c1c1;
+}
+
+#menu_slice {
+    text-align: center;
+}
+
+#header_slice {
+    text-align: right;
+    height: 60px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#unit_switcher {
+    text-align: center;
+    color: #c1c1c1;
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 32px;
+    background-color: #5e5e5e;
+    border-radius: 4px;
+}
+
+#pounds {
+    color: #f9f9f9;
+}
+
+#kilos {
     color: #c1c1c1;
 }
