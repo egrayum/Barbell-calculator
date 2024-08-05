@@ -19,6 +19,8 @@
                 0
             ];
 
+            var n_notif = 0; // popup update notification
+
             var elements = 0; // # of constructed elements (for IDing and removal later)
             
             // hide/show plate selector
@@ -44,7 +46,8 @@
                     document.getElementById(para_ref).style.color = "#f9f9f9";
                 };
                 // unhide calc button
-                document.getElementById("total_button_container").hidden = false;
+                //document.getElementById("total_button_container").hidden = false;
+                make_combos();
             };
 
 
@@ -244,15 +247,19 @@
 
         </script>
     </head>
-    <body>
+    <body onload="make_combos()">
 
         <div id="header_slice">
+            <p id="title">Barbell calculator</p>
             <button id="unit_switcher" onclick="change_unit()"><span id="pounds">lb</span>/<span id="kilos">kg</span></button>
         </div>
 
         <div class="panel" id="selection_panel">
             <div id="menu_slice">
-                <button id="menu_button" onclick="switch_page()">hide</button>
+                <div id="menu_container">
+                    <p id="plate_title">Available plates</p>
+                    <button id="menu_button" onclick="switch_page()">hide</button>
+                </div>
             </div>
     
             <div class="panel" id="selection_subpanel">
@@ -312,6 +319,8 @@
         </div>
 
         <div id="weight_list">
+           
+            <p id="weight_label">Total weights</p>
 
             <!-- example weight display (this is what the code builds)
             <div class="weight_display_module">
