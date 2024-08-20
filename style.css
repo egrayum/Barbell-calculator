@@ -10,6 +10,33 @@ p {
     color: #f9f9f9;
 }
 
+td.left {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: #3f3f3f;
+    min-width: 124px;
+}
+
+td.right {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #3f3f3f;
+    padding-left: 16px;
+    text-align: left;
+}
+
+.row_0 {
+    height: 162px;
+}
+
+.row_100 {
+    height: 243px;
+}
+
+.row_200 {
+    height: 324px;
+}
+
 .center {
     text-align: center;
 }
@@ -41,7 +68,7 @@ p {
 }
 
 .plate_selector {
-    text-align: center;
+    text-align: left;
     max-height: 120px;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -49,7 +76,7 @@ p {
 }
 
 .plate_selector_text {
-    font-size: 44px;
+    font-size: 48px;
     display: inline-block;
     margin-left: 10px;
     margin-right: 10px;
@@ -59,16 +86,27 @@ p {
     vertical-align: middle;
 }
 
+.plate_selector_text_left {
+    font-size: 48px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 48px;
+    margin-top: 2px;
+    margin-bottom: 0;
+    width: 156px;
+    vertical-align: middle;
+}
+
 .plate_selector_button {
-    font-size: 44px;
+    font-size: 48px;
     display: inline-block;
     vertical-align: top;
     text-align: center;
     margin: 4px;
-    color: #f9f9f9;
-    background-color: #df7d46;
-    border-color: #d37742;
-    border-radius: 4px;
+    color: #1e344d;
+    background-color: #5d99df;
+    border: 0;
+    border-radius: 8px;
     padding-left: 0;
     padding-right: 0;
     max-width: 60px;
@@ -84,45 +122,48 @@ p {
     height: 20;
 }
 
-.weight_display_module {
-    background-color: #3f3f3f;
-    border-radius: 8px;
-    margin: 10px;
+.weight_display_module_container {
+    display: table-row;
     min-width: 688px;
-    height: 324px;
+    width: 100%;
+    height: 162px;
     vertical-align: middle;
 }
 
 .weight_display_text {
     text-align: left;
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
     font-size: 52px;
-    margin-top: 132px;
-    margin-left: 20px;
+}
+
+.weight_display_text_container {
+    height: 100%;
+    vertical-align: middle;
+    width: fit-content;
+    display: inline;
 }
 
 .plate_display {
-    display: inline-block;
+    display: inline;
     min-width: 460px;
-    max-width: 460px;
-    height: 200px;
-    text-align: center;
+    width: 75%;
+    text-align: left;
     margin-left: 10%;
-    margin-top: 62px;
     vertical-align: middle;
+    position: absolute;
+    left: 124px;
 }
 
 .plate_display_module {
     display: inline-block;
     min-width: 140px;
     max-width: 140px;
-    min-height: 60px;
     max-height: 60px;
     text-align: center;
     vertical-align: middle;
     background-color: #2f2f2f;
-    border-radius: 4px;
+    border-radius: 8px;
     margin: 5px;
 }
 
@@ -139,17 +180,18 @@ p {
 
 #menu_button {
     background-color: #717171;
-    color: #d1d1d1;
-    font-size: 32px;
-    border-radius: 4px;
+    color: #6bafff;
+    font-size: 36px;
+    border-radius: 8px;
     border: 0;
     height: 60px;
-    display: inline-block;
+    display: inline;
     position: absolute;
-    right: 20px;
-    vertical-align: top;
+    right: 12px;
+    vertical-align: middle;
     padding-right: 30px;
     padding-left: 30px;
+    margin-top: 50px;
 }
 
 #total_button {
@@ -170,11 +212,12 @@ p {
 }
 
 #menu_slice {
-    text-align: center;
+    text-align: left;
     background-color: #717171;
-    border-radius: 4px;
+    border-radius: 8px;
     width: 100%;
-    height: 60px;
+    height: fit-content;
+    vertical-align: middle;
 }
 
 #header_slice {
@@ -182,18 +225,20 @@ p {
     margin: -8px;
     margin-bottom: 0;
     padding: 20px;
+    padding-bottom: 30px;
     background-image: linear-gradient(#5e5e5e, #3f3f3f);
 }
 
 #unit_switcher {
     float: right;
-    color: #c1c1c1;
+    color: #f9f9f9;
     height: 100%;
     padding-left: 20px;
     padding-right: 20px;
     font-size: 32px;
-    background-color: #5e5e5e;
-    border-radius: 4px;
+    background-color: #5d99df;
+    border-radius: 8px;
+    border: 0;
 }
 
 #pounds {
@@ -201,27 +246,38 @@ p {
 }
 
 #kilos {
-    color: #c1c1c1;
+    color: #f9f9f9;
+    opacity: 0.5;
+}
+
+#slash {
+    color: #f9f9f9;
+    opacity: 0.5;
 }
 
 #title {
-    font-size: 48px;
+    font-size: 56px;
     float: left;
     margin: 0;
-    color:#df7d46;  
+    color:#5d99df;
 }
 
 #plate_title {
     color: #f9f9f9;
-    font-size: 48px;
+    font-size: 56px;
     display: inline-block;
-    text-align: center;
-    margin: 0;
+    margin: 12px;
+}
+
+#plate_descriptor {
+    color: #f9f9f9;
+    font-size: 36px;
+    margin: 12px;
 }
 
 #menu_container {
-    text-align: center;
-    height: 60px;
+    text-align: left;
+    display: inline-block;
 }
 
 #weight_label {
@@ -229,10 +285,17 @@ p {
     font-size: 48px;
     padding-left: 30px;
     padding-right: 30px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+#weight_list_container {
+    background-color: #5e5e5e;
+    border-radius: 8px;
+    padding: 5px;
+    margin-top: 24px;
 }
 
 #weight_list {
-    background-color: #5e5e5e;
-    border-radius: 8px;
-    margin: 24px;
+    border-spacing: 16px;
 }
